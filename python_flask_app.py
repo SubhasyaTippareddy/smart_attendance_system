@@ -80,7 +80,7 @@ def gen_frames():  # generate frame by frame from camera
                 # now = datetime.datetime.now()
                 # p = os.path.sep.join(['datasets', "shot_{}.png".format(str(now).replace(":",''))])
                 #cv2.imwrite(p, frame)
-                frame= cv2.putText(cv2.flip(frame,1),"Capturing...", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
+                #frame= cv2.putText(cv2.flip(frame,1),"Capturing...", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
                 count=1
                 sub_data=roll_no
                 path=os.path.join('datasets',sub_data)
@@ -101,7 +101,7 @@ def gen_frames():  # generate frame by frame from camera
                         key=cv2.waitKey(10)
                         if key==27:
                             break
-                frame= cv2.putText(cv2.flip(frame,1),"Done!", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
+                #frame= cv2.putText(cv2.flip(frame,1),"Done!", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
                 name=''
                 roll_no=''        
             

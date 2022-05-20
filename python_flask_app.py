@@ -1,4 +1,5 @@
-from flask import Flask, flash, render_template, Response, request
+from distutils.log import debug
+from flask import Flask, render_template, Response, request
 import cv2
 import datetime, time
 import os, sys
@@ -180,4 +181,4 @@ def tasks():
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)

@@ -1,20 +1,19 @@
-
 from distutils.log import debug
 from flask import Flask, render_template, Response, request
 import cv2
 import datetime, time
 import os, sys
 import numpy as np
-from threading import Thread
 
 
-global capture,rec_frame, grey, switch, neg, face, rec, out, name, roll_no
+global capture,rec_frame, grey, switch, neg, face, rec, out, name, roll_no,attendance
 capture=0
 grey=0
 neg=0
 face=0
 switch=1
 rec=0
+attendance=1
 name=''
 roll_no=''
 haar_file= cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
@@ -66,17 +65,10 @@ def record(out):
 
 
 def gen_frames():  # generate frame by frame from camera
-    global out, capture,rec_frame,roll_no,name
-    while True:
-        success, frame = camera.read() 
-        if success:
-            # if(face):                
-            #     frame= detect_face(frame)
-            # if(grey):
-            #     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # if(neg):
-            #     frame=cv2.bitwise_not(frame)    
+    global out, capture,roll_no,name,attendance
+    while True: 
             if(capture):
+                success, frame = camera.read() 
                 capture=0
                 # now = datetime.datetime.now()
                 # p = os.path.sep.join(['datasets', "shot_{}.png".format(str(now).replace(":",''))])
@@ -98,20 +90,17 @@ def gen_frames():  # generate frame by frame from camera
                         face_resize = cv2.resize(face, (width, height))
                         cv2.imwrite('%s/%s.png' % (path, count), face_resize)
                         count+=1
-                        cv2.imshow('OpenCV', frame)
+                        # cv2.imshow('OpenCV', frame)
                         key=cv2.waitKey(10)
                         if key==27:
                             break
                 #frame= cv2.putText(cv2.flip(frame,1),"Done!", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
                 name=''
                 roll_no=''        
-            
-            if(rec):
-                rec_frame=frame
-                frame= cv2.putText(cv2.flip(frame,1),"Recording...", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
-                frame=cv2.flip(frame,1)
-            
+            if(attendance):
+                attendance=0
                 
+               
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
                 frame = buffer.tobytes()
@@ -119,19 +108,32 @@ def gen_frames():  # generate frame by frame from camera
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             except Exception as e:
                 pass
-                
-        else:
-            pass
+        
 
 
 @app.route('/')
+def start():
+    return render_template('login.html')
+
+@app.route('/index')
 def index():
     return render_template('index.html')
 
 @app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
+        
+@app.route('/',methods=['GET', 'POST'])
+def login():
+    if request.method=='POST':
+        username=request.form['username']
+        password= request.form['password']
+        print(username, password)
+        if username=='ngit' and password=='password':
+            return index()
+        else:
+            error='Invalid Login'
+            return render_template('login.html',error=error)
 
 @app.route('/requests',methods=['POST','GET'])
 def tasks():
@@ -143,17 +145,12 @@ def tasks():
             capture=1
             name=request.form.get('name')
             roll_no=request.form.get('roll_no')
-        elif  request.form.get('grey') == 'Grey':
-            global grey
-            grey=not grey
-        elif  request.form.get('neg') == 'Negative':
-            global neg
-            neg=not neg
-        elif  request.form.get('face') == 'Face Only':
-            global face
-            face=not face 
-            if(face):
-                time.sleep(4)   
+            if(name=='' or roll_no==''): 
+                capture=0
+        if request.form.get('Get Attendance') == 'Attendance':
+            print(request.form)
+            global attendance
+            attendance=1   
         elif  request.form.get('stop') == 'Stop/Start':
             
             if(switch==1):

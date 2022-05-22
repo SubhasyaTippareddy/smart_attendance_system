@@ -1,34 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8  offset-lg-2">
-    
-                
-                <h2 class="mt-5">Smart Attendance using face recognition</h2>
+{% extends "base.html" %}
+{% block title %} Index Page {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-lg-8  offset-lg-2">
+        <div class="card-group">
+            <div class="card">
+                <img class="card-img-top" src="static/images/register.webp" alt="Card image cap">
+                <div class="card-body">
+                    <form action="{{ url_for('tasks') }}" method="POST">
+                        <button type="submit" class="btn btn-primary">Add Student</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="static/images/mark.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <form action="{{ url_for('mark_attendance') }}" method="POST">
+                        <button type="submit" class="btn btn-primary">Mark Attendance</button>
+                    </form>
 
-
-                <form method="post" action="{{ url_for('tasks') }}">
-                    <!-- <input type="submit" value="Stop/Start" name="stop" /> -->
-                    <input type="button" value="Add Student" name="Add" />
-                </form>
-                <form method="post" action="{{ url_for('mark_attendance') }}">
-                    <input type="button" value="Mark Attendance" name="attendance" />
                     <!-- <input type="submit" value="Grey" name="grey" /> -->
                     <!-- <input type="submit" value="Negative" name="neg" /> -->
                     <!-- <input type="submit" value="Face Only" name="face" /> -->
                     <!-- <input type="submit" value="Start/Stop Recording" name="rec" /> -->
-                </form>
-                <h3 style="font-family:courier;">Instructions:</h3>
+                </div>
             </div>
-        </div>
+        </div><!-- <h3 style="font-family:courier;">Instructions:</h3> -->
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

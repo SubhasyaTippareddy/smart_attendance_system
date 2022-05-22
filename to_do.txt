@@ -1,0 +1,23 @@
+Link index to add_student and mark_attendance
+Add student ->  open cam after entering details
+                Display - Capturing..., Done
+                Add name, roll_no to database, photos to folder
+                navigate back to index.html
+
+Mark_attendance ->  Open cam after pressing the button
+                    Display - Please wait..
+                    Get list of names and rollnos from database
+                    mark the attendance according to algo
+                    prepare a csv file (Subject+Time/ Just time), send an email
+                    create a new table/column and add attendance to the table
+                    Load View Attendance button
+                    Display table on view Attendance
+Add Logout and Home button to both pages
+                    
+
+Add Logout button to home page
+Add Layout.html
+
+
+For External -
+Automate the code by time/ DAGs

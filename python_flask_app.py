@@ -1,5 +1,4 @@
-from distutils.log import debug
-from flask import Flask, render_template, Response, request
+from flask import Flask, redirect, render_template, Response, request, url_for
 import cv2
 import datetime, time
 import os, sys
@@ -119,6 +118,10 @@ def start():
 def index():
     return render_template('index.html')
 
+@app.route('/attendance')
+def mark_attendance():
+    return render_template('attendance.html')
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -130,7 +133,7 @@ def login():
         password= request.form['password']
         print(username, password)
         if username=='ngit' and password=='password':
-            return index()
+            return redirect(url_for('index'))
         else:
             error='Invalid Login'
             return render_template('login.html',error=error)

@@ -14,34 +14,65 @@
 	<title>Login</title>
 </head>
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+
 <body>
+	<nav class="navbar sticky-top navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand logo" href="#">
+				<h4>Smart Attendance System</h4>
+			</a>
+		</div>
+	</nav>
 
-	<h1 style="text-align:center">Smart Attendance</h1>
-	<div class="container" style="background-color:#F0F8FF;">
-		<h1 style="font-variant: small-caps;">Login</h1>
-		<form action="" method="POST">
-			<div class="form-group">
-				<label style="font-size: 20px;" class="font-italic">Username</label>
-				<input type="text" name="username" class="form-control" value="{{request.form.username}}">
+	<div class="row d-flex align-items-center justify-content-center h-100">
+		<!-- used this for aligining image and form side by side -->
+		<div class="bg-light d-flex justify-content-between">
+			<div class="col">
+				<img class="float-left Img_size" src="https://wallpaperaccess.com/full/2713199.jpg" alt="image">
 			</div>
-			<div class="form-group">
-				<label style="font-size: 20px;" class="font-italic">Password</label>
-				<input type="password" name="password" class="form-control" value="{{request.form.password}}">
-			</div>
-			<br>
-			<button type="submit" class="btn btn-primary">Login</button>
-		</form>
-		{% if error %}
-		<h1>{{error}}</h1>
-		{% endif %}
-	</div>
+			<div class="col">
+				<form action="" method="POST">
+					<div class="d-flex align-items-center mb-3 pb-1">
+						<span class="h3 fw-bold mb-1">Login</span>
+					</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
-		integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
-		integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
-		crossorigin="anonymous"></script>
+					<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+
+					<div class="form-outline mb-4">
+						<label class="form-label">College Name</label>
+						<input style="width:550px" type="text" class="form-control" />
+					</div>
+
+					<div class="form-outline mb-4">
+						<label class="form-label">Password</label>
+						<input style="width: 550px;" type="password" class="form-control" />
+
+					</div>
+
+					<div>
+						<button type="button" class="btn btn-secondary btn-lg btn-block"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							Login
+							&nbsp;&nbsp;&nbsp;&nbsp; </button>
+
+					</div>
+				</form>
+				{% if error %}
+				<h1>{{error}}</h1>
+				{% endif %}
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+			integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+			integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+			crossorigin="anonymous"></script>
+
 </body>
 
 </html>

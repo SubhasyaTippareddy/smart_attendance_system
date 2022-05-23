@@ -7,17 +7,13 @@
             <div class="card">
                 <img class="card-img-top" src="static/images/register.webp" alt="Card image cap">
                 <div class="card-body">
-                    <form action="{{ url_for('tasks') }}" method="POST">
-                        <button type="submit" class="btn btn-outline-primary">Add Student</button>
-                    </form>
+                   <a href="{{ url_for('add_student') }}"><input type="submit" name="Add Student" value="student"></a>
                 </div>
             </div>
             <div class="card">
                 <img class="card-img-top" src="static/images/mark.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <form action="{{ url_for('mark_attendance') }}" method="POST">
-                        <button type="submit" class="btn btn-outline-primary">Mark Attendance</button>
-                    </form>
+                    <a href="{{ url_for('mark_attendance') }}"><input type="submit" name="Mark Attendance" value="attendance"></a>
 
                     <!-- <input type="submit" value="Grey" name="grey" /> -->
                     <!-- <input type="submit" value="Negative" name="neg" /> -->
@@ -27,5 +23,15 @@
             </div>
         </div><!-- <h3 style="font-family:courier;">Instructions:</h3> -->
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+        var messages = {{ messages | safe }};
+        for (var i=0; i<messages.length; i++) {
+            alert(messages[i]);
+        }
+        </script>
+    {% endif %}
+{% endwith %}
 </div>
 {% endblock %}

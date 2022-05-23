@@ -32,7 +32,9 @@
 		<!-- used this for aligining image and form side by side -->
 		<div class="bg-light d-flex justify-content-between">
 			<div class="col">
-				<img class="float-left Img_size" src="https://wallpaperaccess.com/full/2713199.jpg" alt="image">
+				<img class="float-left Img_size"
+					src="https://images.squarespace-cdn.com/content/v1/5c2d190d5ffd20fcfe3de667/1596565216519-RC73P1L6TP8G0GQMKEVI/BacktoSchool.Teacing.TableMagazine.jpg?format=1000w"
+					alt="image">
 			</div>
 			<div class="col">
 				<form action="" method="POST">
@@ -44,19 +46,21 @@
 
 					<div class="form-outline mb-4">
 						<label class="form-label">College Name</label>
-						<input style="width:550px" type="text" class="form-control" />
+						<input name="username" value="{{request.form.username}}" style="width:550px" type="text"
+							class="form-control" />
 					</div>
 
 					<div class="form-outline mb-4">
 						<label class="form-label">Password</label>
-						<input style="width: 550px;" type="password" class="form-control" />
+						<input name="password" value="{{request.form.password}}" style="width: 550px;" type="password"
+							class="form-control" />
 
 					</div>
 
 					<div>
-						<button type="button" class="btn btn-secondary btn-lg btn-block"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="submit" class="btn btn-secondary btn-lg btn-block"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							Login
-							&nbsp;&nbsp;&nbsp;&nbsp; </button>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </button>
 
 					</div>
 				</form>

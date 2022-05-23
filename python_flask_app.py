@@ -1,20 +1,19 @@
-from flask import Flask, redirect, render_template, Response, request, url_for
+from flask import Flask, flash, redirect, render_template, Response, request, url_for
 import cv2
-import datetime, time
+import datetime, time, sqlite3
 import os, sys
 import numpy as np
 
 
-global capture,rec_frame, grey, switch, neg, face, rec, out, name, roll_no,attendance
-capture=0
-grey=0
-neg=0
-face=0
+# conn = sqlite3.connect('database.db')
+# print("Opened database successfully")
+# conn.execute('CREATE TABLE students_details (name TEXT, roll_no TEXT)')
+# conn.close()
+
+global switch, rec, out,attendance
 switch=1
 rec=0
 attendance=1
-name=''
-roll_no=''
 haar_file= cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 #make shots directory to save pics
 try:
@@ -22,14 +21,9 @@ try:
 except OSError as error:
     pass
 
-#Load pretrained face detection model    
-#net = cv2.dnn.readNetFromCaffe('./saved_model/deploy.prototxt.txt', './saved_model/res10_300x300_ssd_iter_140000.caffemodel')
-
 #instatiate flask app  
 app = Flask(__name__, template_folder='./templates')
-
-
-camera = cv2.VideoCapture(0)
+app.secret_key="sas"
 
 def record(out):
     global rec_frame
@@ -37,6 +31,102 @@ def record(out):
         time.sleep(0.05)
         out.write(rec_frame)
 
+@app.route('/')
+def start():
+    return render_template('login.html')
+       
+@app.route('/',methods=['GET', 'POST'])
+def login():
+    if request.method=='POST':
+        username=request.form['username']
+        password= request.form['password']
+        print(username, password)
+        if username=='ngit' and password=='password':
+            return redirect(url_for('index'))
+        else:
+            flash('Login failed! Please try again')
+            return render_template('login.html')
+
+@app.route('/index')
+def index():
+    return render_template('index.html')        
+
+@app.route('/add_student')
+def add_student():
+    return render_template('create__student_db.html')
+
+@app.route('/attendance')
+def mark_attendance():
+    return render_template('attendance.html')
+
+@app.route('/video_feed')
+def video_feed():
+    print('1')
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')    
+
+@app.route('/add_student',methods=['POST','GET'])
+def add_student_details():
+    global switch,camera
+    if request.method == 'POST':
+        if request.form.get('click') == 'Next':
+            print(request.form)
+            name=request.form.get('name')
+            roll_no=request.form.get('roll_no')
+            if(name=='' or roll_no==''): 
+                flash('Invalid details! Please Enter again')
+                return render_template('create__student_db.html')
+            addStudentUtil(name,roll_no)
+
+def addStudentUtil(name,roll_no):
+        camera = cv2.VideoCapture(0)
+        while True: 
+            success, frame = camera.read() 
+            count=1
+            sub_data=roll_no
+            path=os.path.join('datasets',sub_data)
+            if not os.path.isdir(path):
+                os.mkdir(path)
+            (width, height)=(130,100)
+            face_cascade = cv2.CascadeClassifier(haar_file)
+            while count<101:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                faces = face_cascade.detectMultiScale(gray,1.3,4)
+                for(x,y,w,h) in faces:
+                    cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0),2)
+                    face=gray[y:y+h,x:x+w]
+                    face_resize = cv2.resize(face, (width, height))
+                    cv2.imwrite('%s/%s.png' % (path, count), face_resize)
+                    count+=1
+                    # cv2.imshow('OpenCV', frame)
+                    key=cv2.waitKey(10)
+                    if key==27:
+                        break
+            name=''
+            roll_no=''      
+            print('4')
+            flash('Student Details added to database')
+            return render_template('index.html')       
+             
+
+def addStudentToDatabase(name,roll_no):
+    try:
+        with sqlite3.connect("database.db") as con:
+            cur = con.cursor()
+            cur.execute("INSERT INTO students (name,roll_no) VALUES (?,?)",(name,roll_no))
+            con.commit()
+            msg = "Record successfully added"
+    except:
+         con.rollback()
+         msg = "error in insert operation"
+      
+    finally:
+         return render_template(".html",msg = msg)
+         con.close()
+
+       
+    
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # def detect_face(frame):
 #     global net
@@ -64,15 +154,20 @@ def record(out):
 
 
 def gen_frames():  # generate frame by frame from camera
+    print('2')
+    camera = cv2.VideoCapture(0)
     global out, capture,roll_no,name,attendance
     while True: 
             if(capture):
+                print('3')
                 success, frame = camera.read() 
+                video_feed()
                 capture=0
                 # now = datetime.datetime.now()
                 # p = os.path.sep.join(['datasets', "shot_{}.png".format(str(now).replace(":",''))])
                 #cv2.imwrite(p, frame)
                 #frame= cv2.putText(cv2.flip(frame,1),"Capturing...", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
+                print('4')
                 count=1
                 sub_data=roll_no
                 path=os.path.join('datasets',sub_data)
@@ -96,92 +191,5 @@ def gen_frames():  # generate frame by frame from camera
                 #frame= cv2.putText(cv2.flip(frame,1),"Done!", (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),4)
                 name=''
                 roll_no=''        
-            if(attendance):
-                attendance=0
                 
-               
-            try:
-                ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
-                frame = buffer.tobytes()
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            except Exception as e:
-                pass
-        
-
-
-@app.route('/')
-def start():
-    return render_template('login.html')
-
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-@app.route('/attendance')
-def mark_attendance():
-    return render_template('attendance.html')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-        
-@app.route('/',methods=['GET', 'POST'])
-def login():
-    if request.method=='POST':
-        username=request.form['username']
-        password= request.form['password']
-        print(username, password)
-        if username=='ngit' and password=='password':
-            return redirect(url_for('index'))
-        else:
-            error='Invalid Login'
-            return render_template('login.html',error=error)
-
-@app.route('/requests',methods=['POST','GET'])
-def tasks():
-    global switch,camera
-    if request.method == 'POST':
-        if request.form.get('click') == 'Next':
-            print(request.form)
-            global capture, name, roll_no
-            capture=1
-            name=request.form.get('name')
-            roll_no=request.form.get('roll_no')
-            if(name=='' or roll_no==''): 
-                capture=0
-        if request.form.get('Get Attendance') == 'Attendance':
-            print(request.form)
-            global attendance
-            attendance=1   
-        elif  request.form.get('stop') == 'Stop/Start':
-            
-            if(switch==1):
-                switch=0
-                camera.release()
-                cv2.destroyAllWindows()
-                
-            else:
-                #camera = cv2.VideoCapture(0)
-                switch=1
-        # elif  request.form.get('rec') == 'Start/Stop Recording':
-        #     global rec, out
-        #     rec= not rec
-        #     if(rec):
-        #         now=datetime.datetime.now() 
-        #         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        #         out = cv2.VideoWriter('vid_{}.avi'.format(str(now).replace(":",'')), fourcc, 20.0, (640, 480))
-        #         #Start new thread for recording the video
-        #         thread = Thread(target = record, args=[out,])
-        #         thread.start()
-        #     elif(rec==False):
-        #         out.release()
-                          
-                 
-    elif request.method=='GET':
-        return render_template('index.html')
-    return render_template('index.html')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+ 

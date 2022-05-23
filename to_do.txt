@@ -14,7 +14,7 @@ Mark_attendance ->  Open cam after pressing the button
                     Display table on view Attendance
 Add Logout and Home button to both pages
                     
-
+Add Login Encryption
 Add Logout button to home page
 Add Layout.html
 

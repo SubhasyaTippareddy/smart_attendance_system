@@ -1,7 +1,28 @@
-.img{
-    border-radius: 4px;
+.img {
+  border-radius: 4px;
   padding: 5px;
   width: 150px;
   max-width: 100%;
   height: auto;
+}
+
+.fontAlata {
+  font-family: 'Alata', sans-serif;
+}
+
+
+.Img_size {
+  height: 700px;
+  width: 700px;
+  padding-left: 30px;
+  border-radius: 50px;
+
+}
+
+.navbar-brand {
+  padding: 500px;
+}
+
+.logo {
+  font-family: 'Graduate', cursive;
 }

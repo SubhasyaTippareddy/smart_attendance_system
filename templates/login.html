@@ -64,13 +64,6 @@
 
 					</div>
 				</form>
-				{% if error %}
-				<h1>{{error}}</h1>
-				{% endif %}
-			</div>
-			<br>
-			<button type="submit" class="btn btn-primary">Login</button>
-		</form>
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
 				<script>

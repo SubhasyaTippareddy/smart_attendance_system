@@ -26,3 +26,8 @@
 .logo {
   font-family: 'Graduate', cursive;
 }
+
+.image-container{
+  height: 200;
+  width: 50%;
+}

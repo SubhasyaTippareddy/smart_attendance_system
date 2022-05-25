@@ -8,25 +8,42 @@
         <div class="col-lg-8  offset-lg-2">
             <!-- <img src="{{ url_for('video_feed') }}" height="80%"> -->
 
-            <h2 class="mt-5">Add Student to DB</h2>
+            <h2 class="mt-5 fontforall">Add Student to DB</h2>
             <form method="post" action="{{ url_for('add_student_details') }}">
-
-                <input type="text" name="name" />
-                <input type="text" name="roll_no" />
-                <input type="submit" value="Next" name="click" />
-
-            </form>
-            {% with messages = get_flashed_messages() %}
-			{% if messages %}
-				<script>
-				var messages = {{ messages | safe }};
-				for (var i=0; i<messages.length; i++) {
-					alert(messages[i]);
-				}
-				</script>
-			{% endif %}
-		{% endwith %}
+                <form>
+                    <div class="row">
+                        <div class="col mt-3">
+                            <input type="text" class="form-control" name="name" placeholder="Enter your Name">
+                        </div>
+                        <div class="col mt-3">
+                            <input type="text" name="roll_no" class="form-control" placeholder="Enter your roll Number">
+                        </div>
+                        <div class="col">
+                            <button type="submit" value="Next" name="click"
+                                class="btn btn-outline-primary mt-3">Next</button>
+                        </div>
+                    </div>
         </div>
+        </form>
+        <!--                              REMOVE THIS LATER  
+            <input type="text" name="name" placeholder="Enter name here" />
+                <input class="form-control" type="text" name="roll_no" placeholder="Enter Roll Number" />
+                <input class="form-control" type="text" placeholder="Default input"> -->
+        <!-- <button type="submit" value="Next" name="click" class="btn btn-outline-primary mt-3">Next</button> -->
+
+
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <script>
+            var messages = {{ messages | safe }};
+            for (var i = 0; i < messages.length; i++) {
+                alert(messages[i]);
+            }
+        </script>
+        {% endif %}
+        {% endwith %}
     </div>
+</div>
 </div>
 {% endblock %}

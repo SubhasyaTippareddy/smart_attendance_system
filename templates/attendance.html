@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %} Take Attendance {% endblock %}
 {% block content %}
-    <h1>Please wait Attendance is being marked..</h1>
-    <div class="image-container">
-        <img src="{{ url_for('video_feed_for_attendance') }}">
-    </div>
+<div class="fontforall mt-4 ms-3">
+    <h3>Please wait Attendance is being marked.....</h3>
+</div>
+<div class="image-container">
+    <img src="{{ url_for('video_feed_for_attendance') }}">
+</div>
 
 {% endblock %}

@@ -1,0 +1,9 @@
+-- SQLite
+-- INSERT INTO students_details values ('yashaswini','037');
+-- INSERT INTO students_details values ('varsha','034');
+-- INSERT INTO students_details values ('suvisha','050');
+-- INSERT INTO students_details values ('arvind','066');
+-- INSERT INTO students_details values ('subhasya','109');
+-- INSERT INTO students_details values ('charan','116');
+-- INSERT INTO students_details values ('abhishek','121');
+-- COMMIT;

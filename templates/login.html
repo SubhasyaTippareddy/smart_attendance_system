@@ -33,7 +33,7 @@
 		<div class="bg-light d-flex justify-content-between">
 			<div class="col">
 				<img class="float-left Img_size"
-					src="https://images.squarespace-cdn.com/content/v1/5c2d190d5ffd20fcfe3de667/1596565216519-RC73P1L6TP8G0GQMKEVI/BacktoSchool.Teacing.TableMagazine.jpg?format=1000w"
+					src="static/images/loginPic.jpg"
 					alt="image">
 			</div>
 			<div class="col">
@@ -41,29 +41,24 @@
 					<div class="d-flex align-items-center mb-3 pb-1">
 						<span class="h3 fw-bold mb-1">Login</span>
 					</div>
-
 					<h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-
 					<div class="form-outline mb-4">
 						<label class="form-label">College Name</label>
 						<input name="username" value="{{request.form.username}}" style="width:550px" type="text"
 							class="form-control" />
 					</div>
-
 					<div class="form-outline mb-4">
 						<label class="form-label">Password</label>
 						<input name="password" value="{{request.form.password}}" style="width: 550px;" type="password"
-							class="form-control" />
-
+							class="form-control"/>
 					</div>
-
 					<div>
-						<button type="submit" class="btn btn-secondary btn-lg btn-block"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="submit" class="btn btn-secondary btn-lg btn-block" style="width:200px;"> 
 							Login
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </button>
-
+						</button>
 					</div>
 				</form>
+			</div>
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
 				<script>

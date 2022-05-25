@@ -6,10 +6,9 @@
   height: auto;
 }
 
-.fontAlata {
-  font-family: 'Alata', sans-serif;
+.fontforall {
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
-
 
 .Img_size {
   height: 700px;
@@ -20,7 +19,7 @@
 }
 
 .navbar-brand {
-  padding: 500px;
+  padding: 550px;
 }
 
 .logo {

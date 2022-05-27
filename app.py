@@ -4,7 +4,7 @@ import cv2, openpyxl
 import sqlite3
 import os, sys
 import numpy as np, pandas as pd
-from datetime import date
+from datetime import datetime
 
 haar_file= cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 #make shots directory to save pics
@@ -92,7 +92,9 @@ def file_edit(names,prediction):
     for i in range(len(attendance_sheet['Names'])):
         print(attendance_sheet['Names'][i], attendance_sheet['Roll_No'][i],attendance_sheet['Attendance'][i])
     attendance_df=pd.DataFrame.from_dict(attendance_sheet)
-    filepath = 'attendance_sheets/Attendance'+str(date.today())+'.csv'
+    time=str(datetime.now()).replace(" ","_").replace(":","")
+    time=time[:-7]
+    filepath = 'attendance_sheets/Attendance'+time+'.csv'
     file = open(filepath, 'w')
     writer = csv.writer(file)
     attendance_df.to_csv(filepath, mode='a', index=False, header=False)

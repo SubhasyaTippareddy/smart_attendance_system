@@ -1,9 +1,10 @@
+import csv
 from flask import Flask, flash, redirect, render_template, Response, request, url_for,g
 import cv2, openpyxl
-import datetime, time, sqlite3
+import sqlite3
 import os, sys
-import numpy as np
-from openpyxl import Workbook
+import numpy as np, pandas as pd
+from datetime import date
 
 haar_file= cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 #make shots directory to save pics
@@ -79,18 +80,22 @@ def file_edit(names,prediction):
     # ws = wb.active
     # ws.title = "Attendance"
     # filepath = "attendance_sheets/Attendance_"+datetime.now()+".xlsx"
-    df= getEmptyAttendanceSheet()
-    print(df,"***************************************")
+    attendance_sheet= getEmptyAttendanceSheet()
     a=(names[prediction[0]])
     print('after excelsheet active')
-    for i in range(len(df['Names'])):
+    for i in range(len(attendance_sheet['Names'])):
         print('in for loop')
-        if a==(df['Roll_No'][i]):
-            df['Attendance'][i]="present"
+        if a==(attendance_sheet['Roll_No'][i]):
+            attendance_sheet['Attendance'][i]="present"
             break
     print('Names RollNo Attendance')
-    for i in range(len(df['Names'])):
-        print(df['Names'][i], df['Roll_No'][i],df['Attendance'][i])
+    for i in range(len(attendance_sheet['Names'])):
+        print(attendance_sheet['Names'][i], attendance_sheet['Roll_No'][i],attendance_sheet['Attendance'][i])
+    attendance_df=pd.DataFrame.from_dict(attendance_sheet)
+    filepath = 'attendance_sheets/Attendance'+str(date.today())+'.csv'
+    file = open(filepath, 'w')
+    writer = csv.writer(file)
+    attendance_df.to_csv(filepath, mode='a', index=False, header=False)
     # wb.save(filename=filepath)
     
 
@@ -140,6 +145,7 @@ def gen_frames_for_attendance():
 
 def gen_frames_for_dbcreation(): 
     face_cascade = cv2.CascadeClassifier(haar_file)
+    global camera
     camera = cv2.VideoCapture(0) 
     while True:
         success, frame = camera.read()  # read the camera frame
@@ -166,7 +172,6 @@ def video_feed_for_attendance():
 
 @app.route('/add_student',methods=['POST','GET'])
 def add_student_details():
-    global switch,camera
     if request.method == 'POST':
         if request.form.get('click') == 'Next':
             print(request.form)
@@ -181,7 +186,6 @@ def add_student_details():
                 return render_template('index.html')
 
 def addStudentUtil(name,roll_no):
-        camera = cv2.VideoCapture(0)
         while True: 
             success, frame = camera.read() 
             count=1
@@ -256,29 +260,3 @@ def viewRecords():
     
 if __name__ == '__main__':
     app.run(debug=True)
-
-# def detect_face(frame):
-#     global net
-#     (h, w) = frame.shape[:2]
-#     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
-#         (300, 300), (104.0, 177.0, 123.0))   
-#     net.setInput(blob)
-#     detections = net.forward()
-#     confidence = detections[0, 0, 0, 2]
-
-#     if confidence < 0.5:            
-#             return frame           
-
-#     box = detections[0, 0, 0, 3:7] * np.array([w, h, w, h])
-#     (startX, startY, endX, endY) = box.astype("int")
-#     try:
-#         frame=frame[startY:endY, startX:endX]
-#         (h, w) = frame.shape[:2]
-#         r = 480 / float(h)
-#         dim = ( int(w * r), 480)
-#         frame=cv2.resize(frame,dim)
-#     except Exception as e:
-#         pass
-#     return frame
-
-

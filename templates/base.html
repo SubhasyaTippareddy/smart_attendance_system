@@ -32,10 +32,11 @@
         <div class="container-fluid">
             <nav class="navbar navbar-light bg-light justify-content-between">
                 <a class="navbar-brand logo">Smart Attendance System</a>
-                <form class="form-inline">
-                    <a href="{{ url_for('start') }}"><button class="btn btn-outline-success my-2 my-sm-0"
-                            type="submit">Logout</button></a>
-                </form>
+                <a href="{{ url_for('index') }}"><button class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit">Home</button></a>
+                <a href="{{ url_for('start') }}"><button class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit">Logout</button></a>
+                
             </nav>
         </div>
     </nav>

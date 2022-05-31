@@ -1,33 +1,42 @@
 {% extends "base.html" %}
 {% block title %} Index Page {% endblock %}
 {% block content %}
+
 <div class="container-fluid bg-light bg">
-    <div class="col-lg-8  offset-lg-2">
-        <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src="static\images\Add student.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <a href="{{ url_for('add_student') }}">
-                        <button type="submit" name="Add Student" value="Add student" class="btn btn-outline-primary">
-                            Add Student</button>
+    <!-- Background image -->
+    <div class="bg-image" style="background-image: url('https://a-static.besthdwallpaper.com/school-classroom-wallpaper-1280x720-69041_45.jpg');
+  height: 100vh;">
+        <!-- Background image -->
+        <div class="col-lg-8  offset-lg-2 pt-3">
+            <div class="card-group pt-5">
+                <div class="card rounded corners">
+                    <img class="card-img-top img-thumbnail"
+                        src="https://cdn-icons-png.flaticon.com/512/1946/1946628.png" alt="Card image cap">
+                    <div class="card-body">
+                        <a href="{{ url_for('add_student') }}">
+                            <button type="submit" name="Add Student" value="Add student"
+                                class="btn btn-outline-primary">
+                                Add Student</button>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top " src="static/images/attendance-mark.png" alt="Card image cap">
+                <div class="card pe-5 ps-5"> </div>
+                <div class="card rounded border">
+                    <img class="card-img-top img-thumbnail" src="static\images\Greentick.png" alt="Card image cap">
 
-                <div class="card-body">
-                    <a href="{{ url_for('mark_attendance') }}">
-                        <button type="submit" name="Mark Attendance" value="Mark Attendance"
-                            class="btn btn-outline-primary"> Mark Attendance</button>
+                    <div class="card-body">
+                        <a href="{{ url_for('mark_attendance') }}">
+                            <button type="submit" name="Mark Attendance" value="Mark Attendance"
+                                class="btn btn-outline-primary"> Mark Attendance</button>
 
 
-                        <!-- <input type="submit" value="Grey" name="grey" /> -->
-                        <!-- <input type="submit" value="Negative" name="neg" /> -->
-                        <!-- <input type="submit" value="Face Only" name="face" /> -->
-                        <!-- <input type="submit" value="Start/Stop Recording" name="rec" /> -->
+                            <!-- <input type="submit" value="Grey" name="grey" /> -->
+                            <!-- <input type="submit" value="Negative" name="neg" /> -->
+                            <!-- <input type="submit" value="Face Only" name="face" /> -->
+                            <!-- <input type="submit" value="Start/Stop Recording" name="rec" /> -->
+                    </div>
                 </div>
-            </div>
-        </div><!-- <h3 style="font-family:courier;">Instructions:</h3> -->
+            </div><!-- <h3 style="font-family:courier;">Instructions:</h3> -->
+        </div>
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}

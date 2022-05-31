@@ -19,12 +19,12 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<body class="bg-light" style=" background-color: #E8A87C;">
+    <nav class="navbar navbar-expand-lg navbar-light" style=" background-color: #e0e8ef;">
         <div class="container-fluid">
             <a class="navbar-brand mx-auto logo" href="{{ url_for('index') }}">Smart Attendance System</a>
             <form class="d-flex">
-                <a href="{{ url_for('start') }}"><button class="btn btn-outline-success my-2 my-sm-0"
+                <a href="{{ url_for('start') }}"><button class="btn btn-outline-primary my-2 my-sm-0"
                         type="submit">Logout</button></a>
             </form>
         </div>

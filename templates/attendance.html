@@ -4,13 +4,13 @@ block content %}
 <div class="image-container">
   <img src="{{ url_for('video_feed_for_dbcreation') }}" />
 </div>
-<div class="image-container">
+<div class="" style="padding-left:500px; padding-top:10px">
   <form method="post" action="{{ url_for('gen_frames_for_attendance') }}">
     <button
       type="submit"
       name="Mark Attendance"
       value="Mark Attendance"
-      class="btn btn-outline-primary">Mark</button>
+      class="btn btn-primary col-md-6 text-center">Press to mark your attendance</button>
   </form>
 </div>
 {% with messages = get_flashed_messages() %} {% if messages %}
@@ -20,4 +20,6 @@ block content %}
       alert(messages[i]);
   }
 </script>
-{% endif %} {% endwith %} {% endblock %}
+{% endif %} 
+{% endwith %} 
+{% endblock %}

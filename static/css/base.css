@@ -28,10 +28,17 @@
 }
 
 .image-container {
-  height: 200;
   width: 50%;
   display: block;
   margin-left: auto;
   margin-right: auto;
   padding-top:50px;
+  padding-left:55px
+}
+
+.image-container-2 {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -75,31 +75,12 @@ def getEmptyAttendanceSheet():
         con.close()
     return attend_dictionary
 
-def file_edit(names,prediction):
-    # wb=Workbook()
-    # ws = wb.active
-    # ws.title = "Attendance"
-    # filepath = "attendance_sheets/Attendance_"+datetime.now()+".xlsx"
-    attendance_sheet= getEmptyAttendanceSheet()
-    a=(names[prediction[0]])
-    print('after excelsheet active')
-    for i in range(len(attendance_sheet['Names'])):
-        print('in for loop')
-        if a==(attendance_sheet['Roll_No'][i]):
-            attendance_sheet['Attendance'][i]="present"
-            break
-    print('Names RollNo Attendance')
-    print('-----------------------')
-    for i in range(len(attendance_sheet['Names'])):
-        print(attendance_sheet['Names'][i], attendance_sheet['Roll_No'][i],attendance_sheet['Attendance'][i])
-    attendance_df=pd.DataFrame.from_dict(attendance_sheet)
-    time=str(datetime.now()).replace(" ","_").replace(":","")
-    time=time[:-7]
-    filepath = 'attendance_sheets/Attendance'+time+'.csv'
-    file = open(filepath, 'w')
-    writer = csv.writer(file)
-    attendance_df.to_csv(filepath, mode='a', index=False, header=False)
-    # wb.save(filename=filepath)
+# def file_edit(names,prediction):
+#     # wb=Workbook()
+#     # ws = wb.active
+#     # ws.title = "Attendance"
+#     # filepath = "attendance_sheets/Attendance_"+datetime.now()+".xlsx"
+#     # wb.save(filename=filepath)
     
 @app.route('/attendance',methods=['POST','GET'])
 def gen_frames_for_attendance(): 
@@ -129,6 +110,7 @@ def gen_frames_for_attendance():
                 faces = face_cascade.detectMultiScale(gray, 1.3, 5)
                 print('after detectScale')
                 print('FACES',faces)
+                attendance_sheet= getEmptyAttendanceSheet()
                 for(x,y,w,h) in faces:
                     print(x,y,w,h)
                     cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0),2)
@@ -136,9 +118,26 @@ def gen_frames_for_attendance():
                     face_resize = cv2.resize(face, (width, height))
                     prediction = model.predict(face_resize)
                     print('after model prediction')
-                    file_edit(names,prediction)
-                    break
+                    a=(names[prediction[0]])
+                    print('after excelsheet active')
+                    for i in range(len(attendance_sheet['Names'])):
+                        print('in for loop')
+                        if a==(attendance_sheet['Roll_No'][i]):
+                            attendance_sheet['Attendance'][i]="present"
+                            break
+                    print(a)
+                    # print('Names RollNo Attendance')
+                    # print('-----------------------')
+                    # for i in range(len(attendance_sheet['Names'])):
+                    #     print(attendance_sheet['Names'][i], attendance_sheet['Roll_No'][i],attendance_sheet['Attendance'][i])
                 break
+            attendance_df=pd.DataFrame.from_dict(attendance_sheet)
+            time=str(datetime.now()).replace(" ","_").replace(":","")
+            time=time[:-7]
+            filepath = 'attendance_sheets/Attendance'+time+'.csv'
+            file = open(filepath, 'w')
+            writer = csv.writer(file)
+            attendance_df.to_csv(filepath, mode='a', index=False, header=False)
                 # key=cv2.waitKey(10)
                 # if key == 27:
                 #     break

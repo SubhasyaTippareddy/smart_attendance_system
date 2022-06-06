@@ -43,7 +43,7 @@ def login():
             return redirect(url_for('index'))
         else:
             flash('Login failed! Please try again')
-            return render_template('login.html')
+            return redirect(url_for('start'))
 
 
 @app.route('/index')
@@ -158,7 +158,7 @@ def gen_frames_for_attendance():
         # yield (b'--frame\r\n'
         #        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         flash('Attendance taken!')
-        return render_template('index.html')
+        return redirect(url_for('index'))
 
 
 def gen_frames_for_dbcreation():
@@ -203,7 +203,7 @@ def add_student_details():
             isAdded = addStudentUtil(name, roll_no)
             if isAdded == True:
                 flash('Student added to database successfully!')
-                return render_template('index.html')
+                return redirect(url_for('index'))
 
 
 def addStudentUtil(name, roll_no):

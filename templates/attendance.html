@@ -1,11 +1,23 @@
-{% extends "base.html" %}
-{% block title %} Take Attendance {% endblock %}
-{% block content %}
-<div class="fontforall mt-4 ms-3">
-    <h3>Please wait Attendance is being marked.....</h3>
+{% extends "base.html" %} {% block title %} Take Attendance {% endblock %} {%
+block content %}
+
+<div class="image-container">
+  <img src="{{ url_for('video_feed_for_dbcreation') }}" />
 </div>
 <div class="image-container">
-    <img src="{{ url_for('video_feed_for_attendance') }}">
+  <form method="post" action="{{ url_for('gen_frames_for_attendance') }}">
+    <button
+      type="submit"
+      name="Mark Attendance"
+      value="Mark Attendance"
+      class="btn btn-outline-primary">Mark</button>
+  </form>
 </div>
-
-{% endblock %}
+{% with messages = get_flashed_messages() %} {% if messages %}
+<script>
+  var messages = {{ messages | safe }};
+  for (var i = 0; i < messages.length; i++) {
+      alert(messages[i]);
+  }
+</script>
+{% endif %} {% endwith %} {% endblock %}

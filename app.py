@@ -89,6 +89,7 @@ def file_edit(names,prediction):
             attendance_sheet['Attendance'][i]="present"
             break
     print('Names RollNo Attendance')
+    print('-----------------------')
     for i in range(len(attendance_sheet['Names'])):
         print(attendance_sheet['Names'][i], attendance_sheet['Roll_No'][i],attendance_sheet['Attendance'][i])
     attendance_df=pd.DataFrame.from_dict(attendance_sheet)
@@ -100,8 +101,9 @@ def file_edit(names,prediction):
     attendance_df.to_csv(filepath, mode='a', index=False, header=False)
     # wb.save(filename=filepath)
     
-
+@app.route('/attendance',methods=['POST','GET'])
 def gen_frames_for_attendance(): 
+        if request.method=='POST':
             (images, labels, names, id) = ([],[],{},0)
             for(subdirs, dirs, files) in os.walk(datasets):
                 for file in dirs:
@@ -111,6 +113,7 @@ def gen_frames_for_attendance():
                     for filename in os.listdir(subjectpath):
                         path = subjectpath+'/'+filename
                         label = id
+                        #waste line
                         images.append(cv2.imread(path,0))
                         labels.append(int(label))
                     id+=1
@@ -139,10 +142,12 @@ def gen_frames_for_attendance():
                 # key=cv2.waitKey(10)
                 # if key == 27:
                 #     break
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
+            # ret, buffer = cv2.imencode('.jpg', frame)
+            # frame = buffer.tobytes()
+            # yield (b'--frame\r\n'
+            #        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
+            flash('Attendance taken!')
+            return render_template('index.html')
 
 
 def gen_frames_for_dbcreation(): 
@@ -164,13 +169,13 @@ def gen_frames_for_dbcreation():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-@app.route('/video_feed')
+@app.route('/video_feed_dbcreation')
 def video_feed_for_dbcreation():
-    return Response(gen_frames_for_dbcreation(), mimetype='multipart/x-mixed-replace; boundary=frame')    
+    return Response(gen_frames_for_dbcreation(), mimetype='multipart/x-mixed-replace; boundary=frame')     
 
-@app.route('/video_feed_attendance')
-def video_feed_for_attendance():
-    return Response(gen_frames_for_attendance(), mimetype='multipart/x-mixed-replace; boundary=frame')    
+# @app.route('/video_feed_attendance')
+# def video_feed_for_attendance():
+#     return Response(gen_frames_for_attendance(), mimetype='multipart/x-mixed-replace; boundary=frame')    
 
 @app.route('/add_student',methods=['POST','GET'])
 def add_student_details():

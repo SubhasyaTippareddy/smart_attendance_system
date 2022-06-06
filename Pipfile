@@ -5,11 +5,11 @@ name = "pypi"
 
 [packages]
 opencv-python = "*"
-opencv-contrib-python = "*"
 openpyxl = "*"
 Flask = "*"
 pymongo = "*"
 pandas = "*"
+opencv-contrib-python = "*"
 
 [dev-packages]
 

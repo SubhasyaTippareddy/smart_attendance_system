@@ -1,5 +1,4 @@
 # Smart Attendance System
-
 A face recognition-based attendance system built with Flask and OpenCV that automatically marks student attendance by recognizing faces in real-time.
 
 ## 📋 Features
